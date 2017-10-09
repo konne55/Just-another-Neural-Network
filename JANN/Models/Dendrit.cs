@@ -8,41 +8,47 @@ namespace JANN
 {
     class Dendrit
     {
-        public double Weight { get { return Weight; } set { Weight = value; } }
+        private double _weight;
+        private Neuron _sendingNeuron;
+        private Neuron _recievingNeuron;
+
+
+
+        public double Weight { get { return _weight; } }
         public double Value { get { return SendingNeuron.Output * Weight; } set { Value = value; } }
-        public Neuron SendingNeuron { get { return SendingNeuron; } set { SendingNeuron = value; } }
-        public Neuron RecievingNeuron { get { return RecievingNeuron ; } set { RecievingNeuron = value; } }
+        public Neuron SendingNeuron { get { return _sendingNeuron; } }
+        public Neuron RecievingNeuron { get { return _recievingNeuron ; }  }
 
         private Random r = new Random();
+
+        // Ctor
         public Dendrit(Neuron sn, Neuron rn)
         {
-            Weight = r.Next(-10,10);
-            SendingNeuron = new Neuron();
-            SendingNeuron = new Neuron();
-            SendingNeuron = sn;
-            RecievingNeuron = rn;
+            _weight = r.NextDouble() * 2 - 1;
+            _sendingNeuron  = new Neuron();
+            _recievingNeuron  = new Neuron();
+            _sendingNeuron = sn;
+            _recievingNeuron = rn;
         }
-
         public Dendrit()
         {
-            SendingNeuron = new Neuron();
-            RecievingNeuron = new Neuron();
-            Weight = r.Next(-10,10);
+            _sendingNeuron = new Neuron();
+            _recievingNeuron = new Neuron();
+            _weight = r.NextDouble() * 2 - 1;
         }
+
 
         public void randomizeWeight(int min, int max)
         {
-            Weight = r.Next(min, max);
+            _weight = r.NextDouble() * 2 - 1;
         }
-
         public void setSendingNeuron(Neuron sn)
         {
-            SendingNeuron = sn;
+            _sendingNeuron = sn;
         }
-
         public void setRecievingNeuron(Neuron rn)
         {
-            RecievingNeuron = rn;
+            _recievingNeuron = rn;
         }
     }
 }

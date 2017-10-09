@@ -9,16 +9,32 @@ namespace JANN.ViewModels
 {
     public class ShellViewModel : Screen 
     {
-        private string _name = "test";
+        NeuralNetwork nn = new NeuralNetwork();
+        private double[] _inputValues = new double[] { 1, 1 };
 
-        public string Name
+        public double[] Inputvalues
         {
-            get { return _name ; }
-            set {
-                _name = value;
-                NotifyOfPropertyChange(() => Name);
-            }
+            get { return _inputValues; }
+            set { _inputValues = value; }
         }
+
+        private double[] _outputValues;
+
+        public double[] OutputValues
+        {
+            get { return _outputValues; }
+            set { _outputValues = value; }
+        }
+
+        public void InitializeNetwork()
+        {
+            nn.addLayer(2, 0);
+            nn.addLayer(2, 1);
+            nn.meshLayers(nn.Layers.First(),nn.Layers.Last());
+            nn.setNewInputvalues(_inputValues);
+            OutputValues = nn.calculate();
+        }
+
 
     }
 }

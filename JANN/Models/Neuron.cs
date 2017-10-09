@@ -6,20 +6,34 @@ using System.Threading.Tasks;
 
 namespace JANN
 {
-    class Neuron
+     class Neuron
     {
+        private double _input;
+        private double _output;
+        private List<Dendrit> _recievingDendrites;
+        private List<Dendrit> _sendingDendrites;
+
+        public List<Dendrit> RecievingDendrites { get { return _recievingDendrites; } }
+        public List<Dendrit> SendingDendrites { get { return _sendingDendrites; } }
+
         public double Input
         {
             get
             {
                 double sum = 0;
-                foreach (Dendrit d in RecievingDendrites)
-                {
-                    sum = sum + d.Value;
+                if (RecievingDendrites.Count() > 0) { 
+                    foreach (Dendrit d in RecievingDendrites)
+                    {
+                        sum = sum + d.Value;
+                    }
+                    return sum;
                 }
-                return sum;
+                else
+                {
+                    return _input;
+                }
             }
-            set { Input = value; }
+            set { _input = value; }
         }
 
         public double Output
@@ -28,16 +42,23 @@ namespace JANN
             {
                 return ActivationFunction(Input);
             }
-            set { Output = value; }
+            set { _output = value; }
         }
 
-        public List<Dendrit> RecievingDendrites { get; set; }
-        public List<Dendrit> SendingDendrites { get; set; }
 
         public Neuron()
         {
-            RecievingDendrites = new List<Dendrit>();
-            SendingDendrites = new List<Dendrit>();
+            _recievingDendrites = new List<Dendrit>();
+            _sendingDendrites = new List<Dendrit>();
+        }
+
+        public void AddSendingDendrite(Dendrit d)
+        {
+            _sendingDendrites.Add(d);
+        }
+        public void AddRecievingDendrite(Dendrit d)
+        {
+            _recievingDendrites.Add(d);
         }
 
         private double ActivationFunction(double value)

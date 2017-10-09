@@ -9,7 +9,7 @@ namespace JANN
     class NeuralNetwork
     {
         public List<Layer> Layers { get; set; }
-        public Layer InputLayer { get { return Layers.ElementAt(0); } }
+        public Layer InputLayer { get { return Layers.First(); } }
         public Layer OutputLayer { get { return Layers.Last(); } }
 
         public NeuralNetwork()
@@ -26,7 +26,7 @@ namespace JANN
                 Neuron n = new Neuron();
                 l.addNeuron(n);
             }
-            if (position < Layers.Count )
+            if (position <= Layers.Count )
             {
                 Layers.Insert(position, l);
             }
@@ -40,21 +40,34 @@ namespace JANN
                 foreach (Neuron rn in secondLayer.Neurons )
                 {
                     Dendrit d = new Dendrit(sn, rn);
-                    rn.SendingDendrites.Add(d);
-                    sn.RecievingDendrites.Add (d);
+                    rn.AddSendingDendrite(d);
+                    sn.AddRecievingDendrite(d);
                 }
             }
         }
 
-        public void calculate(double[] inputData)
+        public bool setNewInputvalues(double[] inputData)
         {
-            if (inputData.Count() ==  InputLayer.Neurons.Count()) 
+            if (inputData.Count() == InputLayer.Neurons.Count())
             {
+                // Inputwerte den Inputneuronen zuweisen
                 for (int i = 0; i < InputLayer.Neurons.Count(); i++)
                 {
                     InputLayer.Neurons.ElementAt(i).Input = inputData[i];
                 }
+                return true;
             }
+            return false;
+        }
+
+        public double[] calculate()
+        {
+            double[] outputData = new double[OutputLayer.Neurons.Count()];
+            for (int i = 0; i < OutputLayer.Neurons.Count(); i++)
+            {
+                outputData[i] = OutputLayer.Neurons[i].Output;
+            }
+            return outputData;
         }
 
     }
