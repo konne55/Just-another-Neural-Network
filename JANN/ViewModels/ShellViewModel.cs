@@ -4,13 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace JANN.ViewModels
 {
     public class ShellViewModel : Screen 
     {
-        NeuralNetwork nn = new NeuralNetwork();
+        NeuralNetwork nn;
         private double[] _inputValues = new double[] { 1, 1 };
+        private int[] _netconfig = new int[] { 2, 1, 2 };
+        public ObservableCollection<double> Output { get; private set; }
 
         public double[] Inputvalues
         {
@@ -28,11 +31,20 @@ namespace JANN.ViewModels
 
         public void InitializeNetwork()
         {
-            nn.addLayer(2, 0);
-            nn.addLayer(2, 1);
-            nn.meshLayers(nn.Layers.First(),nn.Layers.Last());
-            nn.setNewInputvalues(_inputValues);
-            OutputValues = nn.calculate();
+            double[] output;
+            nn = new NeuralNetwork();
+            Output = new ObservableCollection<double>();
+            nn.BuildNet(_netconfig);
+            nn.MeshFullNet();
+            nn.SetNewInputvalues(_inputValues);
+            nn.Calculate();
+            output = nn.GetNetOutput();
+
+            for (int i = 0; i < output.Length ; i++)
+            {
+                Output.Add(output[i]);
+            }
+
         }
 
 

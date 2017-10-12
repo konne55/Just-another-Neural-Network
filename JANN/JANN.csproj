@@ -85,10 +85,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Dendrit.cs" />
+    <Compile Include="Models\ActivationFunction.cs" />
+    <Compile Include="Models\Bias.cs" />
+    <Compile Include="Models\Dendrite.cs" />
+    <Compile Include="Models\InputNeuron.cs" />
     <Compile Include="Models\Layer.cs" />
     <Compile Include="Models\NeuralNetwork.cs" />
-    <Compile Include="Models\Neuron.cs" />
+    <Compile Include="Models\Base\Neuron.cs" />
+    <Compile Include="Models\WorkingNeuron.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
